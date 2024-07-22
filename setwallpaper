@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Script to set the wallpaper
+# Uses hyprpaper
+
+# Location of the current wallpaper
+WALLPAPER_LOCATION=${HOME}/.local/share/wallpaper/wall.png
+
+# If image is passed, copy the image to wallpaper_location
+if [ $# -gt 0 ]; then
+  # Check if file passed is an image, return an error otherwise
+  case "$(file --mime-type -b "$1")" in
+  image/*)
+    echo "Setting wallpaper..." && magick "${1}" -resize 1366x768^ -gravity center -extent 1366x768 "${WALLPAPER_LOCATION}"
+    echo "${WALLPAPER_LOCATION}"
+    ;;
+  *)
+    echo "Not a valid image or directory."
+    exit 1
+    ;;
+  esac
+fi
+
+# restart hyprpaper
+pkill hyprpaper
+nohup hyprpaper >/dev/null 2>&1 &
+nohup wal -i "$WALLPAPER_LOCATION" --cols16 -n
