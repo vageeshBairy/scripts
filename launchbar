@@ -1,0 +1,20 @@
+#!/bin/sh
+
+case $XDG_CURRENT_DESKTOP in
+"Hyprland")
+  if hash waybar >/dev/null 2>&1; then
+    pkill waybar
+    waybar -c "$HOME"/.config/waybar/config-hypr.jsonc &
+  else
+    waybar -c "$HOME"/.config/waybar/config-hypr.jsonc &
+  fi
+  ;;
+"")
+  if hash waybar >/dev/null 2>&1; then
+    pkill waybar
+    waybar -c "$HOME"/.config/waybar/config-river.jsonc &
+  else
+    waybar -c "$HOME"/.config/waybar/config-river.jsonc &
+  fi
+  ;;
+esac

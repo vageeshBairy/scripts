@@ -1,10 +1,11 @@
 #!/bin/sh
 
 # Script to set the wallpaper
-# Uses hyprpaper
+# Uses swww
 
 # Location of the current wallpaper
 WALLPAPER_LOCATION=${HOME}/.local/share/wallpaper/wall.png
+swww-daemon --format xrgb &
 
 # If image is passed, copy the image to wallpaper_location
 if [ $# -gt 0 ]; then
@@ -22,6 +23,9 @@ if [ $# -gt 0 ]; then
 fi
 
 # restart hyprpaper
-pkill hyprpaper
-nohup hyprpaper >/dev/null 2>&1 &
+if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+  swww img --transition-type grow --transition-pos 0.854,0.977 --transition-step 90 "$WALLPAPER_LOCATION"
+else
+  swww img --transition-type grow --transition-pos 0.854,0.977 --transition-step 90 "$WALLPAPER_LOCATION"
+fi
 nohup wal -i "$WALLPAPER_LOCATION" --cols16 -n
