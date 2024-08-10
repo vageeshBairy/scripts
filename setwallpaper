@@ -5,14 +5,13 @@
 
 # Location of the current wallpaper
 WALLPAPER_LOCATION=${HOME}/.local/share/wallpaper/wall.png
-swww-daemon --format xrgb &
 
 # If image is passed, copy the image to wallpaper_location
 if [ $# -gt 0 ]; then
   # Check if file passed is an image, return an error otherwise
   case "$(file --mime-type -b "$1")" in
   image/*)
-    echo "Setting wallpaper..." && magick "${1}" -resize 1366x768^ -gravity center -extent 1366x768 "${WALLPAPER_LOCATION}"
+    echo "Setting wallpaper..." && magick "${1}" -resize 1366x768^ -gravity center -extent 1366x768^ "${WALLPAPER_LOCATION}"
     echo "${WALLPAPER_LOCATION}"
     ;;
   *)
@@ -22,10 +21,10 @@ if [ $# -gt 0 ]; then
   esac
 fi
 
-# restart hyprpaper
+# change wallpaper
 if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
-  swww img --transition-type grow --transition-pos 0.854,0.977 --transition-step 90 "$WALLPAPER_LOCATION"
+  swww img --transition-type grow --transition-pos 0.854,0.977 --transition-fps 60 --transition-step 90 "$WALLPAPER_LOCATION"
 else
-  swww img --transition-type grow --transition-pos 0.854,0.977 --transition-step 90 "$WALLPAPER_LOCATION"
+  swww img --transition-type grow --transition-pos 0.854,0.977 --transition-fps 60 --transition-step 90 "$WALLPAPER_LOCATION"
 fi
 nohup wal -i "$WALLPAPER_LOCATION" --cols16 -n
