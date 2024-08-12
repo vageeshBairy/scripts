@@ -12,7 +12,7 @@ if [ $# -gt 0 ]; then
   case "$(file --mime-type -b "$1")" in
   image/*)
     magick "${1}" -resize 1366x768^ -gravity center -extent 1366x768^ "${WALLPAPER_LOCATION}"
-    notify-send "Setting wallpaper...\n  ${WALLPAPER_LOCATION}"
+    notify-send "Setting wallpaper...  ${WALLPAPER_LOCATION}"
 
     swww img --transition-type grow --transition-pos 0.854,0.977 --transition-fps 60 --transition-step 90 "$WALLPAPER_LOCATION"
     wal -i "$WALLPAPER_LOCATION" --cols16 -n
