@@ -11,20 +11,21 @@ if [ $# -gt 0 ]; then
   # Check if file passed is an image, return an error otherwise
   case "$(file --mime-type -b "$1")" in
   image/*)
-    echo "Setting wallpaper..." && magick "${1}" -resize 1366x768^ -gravity center -extent 1366x768^ "${WALLPAPER_LOCATION}"
-    echo "${WALLPAPER_LOCATION}"
+    magick "${1}" -resize 1366x768^ -gravity center -extent 1366x768^ "${WALLPAPER_LOCATION}"
+    notify-send "Setting wallpaper...\n  ${WALLPAPER_LOCATION}"
+
+    swww img --transition-type grow --transition-pos 0.854,0.977 --transition-fps 60 --transition-step 90 "$WALLPAPER_LOCATION"
+    wal -i "$WALLPAPER_LOCATION" --cols16 -n
     ;;
   *)
-    echo "Not a valid image or directory."
+    notify-send "Not a valid image or directory."
     exit 1
     ;;
   esac
 fi
 
 # change wallpaper
-if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
-  swww img --transition-type grow --transition-pos 0.854,0.977 --transition-fps 60 --transition-step 90 "$WALLPAPER_LOCATION"
-else
-  swww img --transition-type grow --transition-pos 0.854,0.977 --transition-fps 60 --transition-step 90 "$WALLPAPER_LOCATION"
-fi
-nohup wal -i "$WALLPAPER_LOCATION" --cols16 -n
+# if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+# swww img --transition-type grow --transition-pos 0.854,0.977 --transition-fps 60 --transition-step 90 "$WALLPAPER_LOCATION"
+# else
+# fi
